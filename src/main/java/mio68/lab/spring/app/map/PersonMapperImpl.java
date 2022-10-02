@@ -22,4 +22,10 @@ public class PersonMapperImpl implements PersonMapper{
         return personEntity;
     }
 
+    @Override
+    public Person mapPersonEntity(PersonEntity personEntity) {
+        return new Person(
+                personEntity.getFirstName(),
+                personEntity.getLastName());
+    }
 }

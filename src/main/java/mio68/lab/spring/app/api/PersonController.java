@@ -8,6 +8,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
+import java.util.List;
 
 @RestController
 @RequestMapping("/api/vi")
@@ -31,4 +32,9 @@ public class PersonController {
         personService.save(person);
     }
 
+
+    @GetMapping("/persons")
+    public List<Person> list() {
+        return personService.list();
+    }
 }

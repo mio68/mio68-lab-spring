@@ -20,5 +20,19 @@ public class Person {
         return lastName;
     }
 
+    @Override
+    public boolean equals(Object obj) {
+        if (!(obj instanceof Person other)) {
+            return false;
+        }
+
+        return this.firstName.equals(other.firstName) &&
+                this.lastName.equals(other.lastName);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(firstName, lastName);
+    }
 }
 

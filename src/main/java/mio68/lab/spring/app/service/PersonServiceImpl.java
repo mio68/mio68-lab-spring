@@ -5,6 +5,9 @@ import mio68.lab.spring.app.model.Person;
 import mio68.lab.spring.app.repository.PersonRepository;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+import java.util.stream.Collectors;
+
 @Service
 public class PersonServiceImpl implements PersonService {
 
@@ -24,4 +27,11 @@ public class PersonServiceImpl implements PersonService {
         personRepository.save(personMapper.mapPerson(person));
     }
 
+    @Override
+    public List<Person> list() {
+        return personRepository.list()
+                .stream()
+                .map(personMapper::mapPersonEntity)
+                .collect(Collectors.toList());
+    }
 }

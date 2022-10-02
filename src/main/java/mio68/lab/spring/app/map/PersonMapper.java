@@ -10,4 +10,5 @@ public interface PersonMapper {
 
     PersonEntity mapPerson(Person person);
 
+    Person mapPersonEntity(PersonEntity personEntity);
 }

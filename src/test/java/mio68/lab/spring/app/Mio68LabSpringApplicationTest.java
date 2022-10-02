@@ -2,14 +2,14 @@ package mio68.lab.spring.app;
 
 import mio68.lab.spring.app.model.Person;
 import mio68.lab.spring.app.service.PersonService;
-import org.junit.jupiter.api.BeforeAll;
-import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.context.ApplicationContext;
 
-import static org.junit.jupiter.api.Assertions.*;
+import java.util.List;
+
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 /**
  * Whole application context is loaded.
@@ -35,7 +35,10 @@ class Mio68LabSpringApplicationTest {
 
     @Test
     public void savePerson() {
-       personService.save(new Person("John", "Doe"));
+        Person person = new Person("John", "Doe");
+        personService.save(person);
+        List<Person> persons = personService.list();
+        assertTrue(persons.contains(person), "saved person must be returned by list");
     }
 
 }
