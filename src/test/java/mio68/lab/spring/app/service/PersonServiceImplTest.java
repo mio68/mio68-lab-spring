@@ -42,11 +42,12 @@ class PersonServiceImplTest {
         }
     }
 
+    // Testing with Mockito, verifying number of calls
     @Test
     public void savePerson() {
         when(personRepository.save(any())).thenReturn(1);
-        verify(personRepository, atMostOnce()).save(any());
         personService.save(new Person("John", "Doe"));
+        verify(personRepository, times(1)).save(any());
     }
 
 }

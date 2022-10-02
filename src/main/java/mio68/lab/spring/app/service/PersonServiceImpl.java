@@ -21,7 +21,7 @@ public class PersonServiceImpl implements PersonService {
 
     @Override
     public void save(Person person) {
-//        personRepository.save(personMapper.mapPerson(person));
+        personRepository.save(personMapper.mapPerson(person));
     }
 
 }
