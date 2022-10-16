@@ -1,10 +1,7 @@
-package mio68.lab.spring.app.api;
+package mio68.lab.spring.webapp.secureapp.api;
 
-import mio68.lab.spring.app.map.PersonMapper;
-import mio68.lab.spring.app.map.PersonMapperImpl;
-import mio68.lab.spring.app.repository.PersonRepositoryImpl;
-import mio68.lab.spring.app.service.PersonService;
-import mio68.lab.spring.app.service.PersonServiceImpl;
+import mio68.lab.spring.webapp.common.map.PersonMapper;
+import mio68.lab.spring.webapp.common.service.PersonService;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
@@ -27,6 +24,10 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @WebMvcTest(controllers = PersonController.class)
 class PersonControllerTest {
 
+    public static final String TEST_PERSON_JSON = "{ \"firstName\":\"John\", \"lastName\": \"Doe\"}";
+    public static final String API_V_1_PERSON = "/api/v1/person";
+
+
     @MockBean
     PersonService personService;
 
@@ -39,19 +40,19 @@ class PersonControllerTest {
     @Test
     @WithAnonymousUser
     public void when_saveByAnonymous_thenUnauthorized() throws Exception {
-        mockMvc.perform(post("/api/v1/person")
+        mockMvc.perform(post(API_V_1_PERSON)
                         .contentType(MediaType.APPLICATION_JSON)
-                        .content("{ \"firstName\":\"John\", \"lastName\": \"Doe\"}")
+                        .content(TEST_PERSON_JSON)
                         .with(csrf()))
                 .andExpect(status().isUnauthorized());
     }
 
     @Test
-    @WithMockUser()
+    @WithMockUser() // Creates user with USER role by default
     public void when_saveByUser_thenForbidden() throws Exception {
-        mockMvc.perform(post("/api/v1/person")
+        mockMvc.perform(post(API_V_1_PERSON)
                         .contentType(MediaType.APPLICATION_JSON)
-                        .content("{ \"firstName\":\"John\", \"lastName\": \"Doe\"}")
+                        .content(TEST_PERSON_JSON)
                         .with(csrf()))
                 .andExpect(status().isForbidden());
     }
@@ -59,9 +60,9 @@ class PersonControllerTest {
     @Test
     @WithMockUser(roles = {"ADMIN"})
     public void when_saveByAdmin_thenCreated() throws Exception {
-        mockMvc.perform(post("/api/v1/person")
+        mockMvc.perform(post(API_V_1_PERSON)
                         .contentType(MediaType.APPLICATION_JSON)
-                        .content("{ \"firstName\":\"John\", \"lastName\": \"Doe\"}")
+                        .content(TEST_PERSON_JSON)
                         .with(csrf()))
                 .andExpect(status().isCreated());
     }

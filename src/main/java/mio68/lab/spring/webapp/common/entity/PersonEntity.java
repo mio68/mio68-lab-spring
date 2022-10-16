@@ -1,4 +1,4 @@
-package mio68.lab.spring.app.entity;
+package mio68.lab.spring.webapp.common.entity;
 
 import lombok.Data;
 

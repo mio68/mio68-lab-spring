@@ -1,8 +1,8 @@
-package mio68.lab.spring.app.service;
+package mio68.lab.spring.webapp.common.service;
 
-import mio68.lab.spring.app.map.PersonMapper;
-import mio68.lab.spring.app.model.Person;
-import mio68.lab.spring.app.repository.PersonRepository;
+import mio68.lab.spring.webapp.common.map.PersonMapper;
+import mio68.lab.spring.webapp.common.model.Person;
+import mio68.lab.spring.webapp.common.repository.PersonRepository;
 import org.springframework.stereotype.Service;
 
 import java.util.List;

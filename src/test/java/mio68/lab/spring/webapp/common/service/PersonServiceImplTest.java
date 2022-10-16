@@ -1,20 +1,19 @@
-package mio68.lab.spring.app.service;
+package mio68.lab.spring.webapp.common.service;
 
-import mio68.lab.spring.app.map.PersonMapper;
-import mio68.lab.spring.app.model.Person;
-import mio68.lab.spring.app.repository.PersonRepository;
+import mio68.lab.spring.webapp.common.map.PersonMapper;
+import mio68.lab.spring.webapp.common.model.Person;
+import mio68.lab.spring.webapp.common.repository.PersonRepository;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.context.ApplicationContext;
 
-import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.*;
 
 /**
- * Integration test for PersonServiceImpl.
+ * Test ONLY for PersonServiceImpl.
  * It's dependencies are created by @MockBean
  */
 @SpringBootTest(classes = {PersonServiceImpl.class})

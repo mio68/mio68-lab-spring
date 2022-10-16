@@ -1,17 +1,19 @@
-package mio68.lab.spring.app;
+package mio68.lab.spring.webapp.secureapp;
 
 import org.springframework.boot.ApplicationArguments;
 import org.springframework.boot.ApplicationRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.ApplicationContext;
+import org.springframework.context.annotation.ComponentScan;
 import org.springframework.stereotype.Component;
 
 @SpringBootApplication
-public class Mio68LabSpringApplication {
+@ComponentScan("mio68.lab.spring.webapp.common")
+public class SecureApplication {
 
 	public static void main(String[] args) {
-		SpringApplication.run(Mio68LabSpringApplication.class, args);
+		SpringApplication.run(SecureApplication.class, args);
 	}
 
 	// После запуска приложения Spring выполним некоторые действия

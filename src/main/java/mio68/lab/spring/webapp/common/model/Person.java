@@ -1,4 +1,4 @@
-package mio68.lab.spring.app.model;
+package mio68.lab.spring.webapp.common.model;
 
 import java.util.Objects;
 

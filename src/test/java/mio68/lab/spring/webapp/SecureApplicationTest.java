@@ -1,11 +1,13 @@
-package mio68.lab.spring.app;
+package mio68.lab.spring.webapp;
 
-import mio68.lab.spring.app.model.Person;
-import mio68.lab.spring.app.service.PersonService;
+import mio68.lab.spring.webapp.common.model.Person;
+import mio68.lab.spring.webapp.secureapp.SecureApplication;
+import mio68.lab.spring.webapp.common.service.PersonService;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.context.ApplicationContext;
+import org.springframework.context.annotation.ComponentScan;
 
 import java.util.List;
 
@@ -14,8 +16,8 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 /**
  * Whole application context is loaded.
  */
-@SpringBootTest(classes = {Mio68LabSpringApplication.class})
-class Mio68LabSpringApplicationTest {
+@SpringBootTest(classes = {SecureApplication.class})
+class SecureApplicationTest {
 
     @Autowired
     PersonService personService;

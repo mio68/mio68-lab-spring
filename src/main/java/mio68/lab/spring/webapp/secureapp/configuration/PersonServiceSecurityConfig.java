@@ -1,4 +1,4 @@
-package mio68.lab.spring.app.configuration;
+package mio68.lab.spring.webapp.secureapp.configuration;
 
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.HttpMethod;

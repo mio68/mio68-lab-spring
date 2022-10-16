@@ -1,9 +1,9 @@
-package mio68.lab.spring.app.api;
+package mio68.lab.spring.webapp.secureapp.api;
 
-import mio68.lab.spring.app.dto.PersonDto;
-import mio68.lab.spring.app.map.PersonMapper;
-import mio68.lab.spring.app.model.Person;
-import mio68.lab.spring.app.service.PersonService;
+import mio68.lab.spring.webapp.common.dto.PersonDto;
+import mio68.lab.spring.webapp.common.map.PersonMapper;
+import mio68.lab.spring.webapp.common.model.Person;
+import mio68.lab.spring.webapp.common.service.PersonService;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 

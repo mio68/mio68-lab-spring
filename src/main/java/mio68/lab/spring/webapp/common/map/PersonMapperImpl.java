@@ -1,8 +1,8 @@
-package mio68.lab.spring.app.map;
+package mio68.lab.spring.webapp.common.map;
 
-import mio68.lab.spring.app.dto.PersonDto;
-import mio68.lab.spring.app.entity.PersonEntity;
-import mio68.lab.spring.app.model.Person;
+import mio68.lab.spring.webapp.common.dto.PersonDto;
+import mio68.lab.spring.webapp.common.entity.PersonEntity;
+import mio68.lab.spring.webapp.common.model.Person;
 import org.springframework.stereotype.Component;
 
 @Component

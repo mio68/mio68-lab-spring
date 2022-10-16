@@ -1,6 +1,6 @@
-package mio68.lab.spring.app.repository;
+package mio68.lab.spring.webapp.common.repository;
 
-import mio68.lab.spring.app.entity.PersonEntity;
+import mio68.lab.spring.webapp.common.entity.PersonEntity;
 
 import java.util.List;
 

@@ -1,6 +1,6 @@
-package mio68.lab.spring.app.service;
+package mio68.lab.spring.webapp.common.service;
 
-import mio68.lab.spring.app.model.Person;
+import mio68.lab.spring.webapp.common.model.Person;
 
 import java.util.List;
 

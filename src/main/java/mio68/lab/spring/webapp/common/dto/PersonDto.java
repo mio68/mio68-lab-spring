@@ -1,4 +1,4 @@
-package mio68.lab.spring.app.dto;
+package mio68.lab.spring.webapp.common.dto;
 
 import lombok.Data;
 
