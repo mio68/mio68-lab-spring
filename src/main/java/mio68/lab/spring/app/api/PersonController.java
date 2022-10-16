@@ -1,6 +1,6 @@
 package mio68.lab.spring.app.api;
 
-import mio68.lab.spring.app.dao.PersonDao;
+import mio68.lab.spring.app.dto.PersonDto;
 import mio68.lab.spring.app.map.PersonMapper;
 import mio68.lab.spring.app.model.Person;
 import mio68.lab.spring.app.service.PersonService;
@@ -27,8 +27,8 @@ public class PersonController {
 
     @PostMapping("/person")
     @ResponseStatus(HttpStatus.CREATED)
-    public void savePerson(@RequestBody @Valid PersonDao personDao) {
-        Person person = personMapper.mapPersonDao(personDao);
+    public void savePerson(@RequestBody @Valid PersonDto personDto) {
+        Person person = personMapper.mapPersonDao(personDto);
         personService.save(person);
     }
 

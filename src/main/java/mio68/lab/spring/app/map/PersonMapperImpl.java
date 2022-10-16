@@ -1,6 +1,6 @@
 package mio68.lab.spring.app.map;
 
-import mio68.lab.spring.app.dao.PersonDao;
+import mio68.lab.spring.app.dto.PersonDto;
 import mio68.lab.spring.app.entity.PersonEntity;
 import mio68.lab.spring.app.model.Person;
 import org.springframework.stereotype.Component;
@@ -9,9 +9,9 @@ import org.springframework.stereotype.Component;
 public class PersonMapperImpl implements PersonMapper{
 
     @Override
-    public Person mapPersonDao(PersonDao personDao) {
-        return new Person(personDao.getFirstName(),
-                personDao.getLastName());
+    public Person mapPersonDao(PersonDto personDto) {
+        return new Person(personDto.getFirstName(),
+                personDto.getLastName());
     }
 
     @Override
