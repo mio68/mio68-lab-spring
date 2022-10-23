@@ -1,19 +1,21 @@
 package mio68.lab.spring.async.service;
 
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Service;
 
 import java.util.concurrent.TimeUnit;
 
 @Service
+@Slf4j
 public class HelloServiceImpl implements HelloService {
 
     @Async
     @Override
     public void sayHello() throws InterruptedException {
-        System.out.println("sayHello begin");
+        log.info("sayHello begins...");
         TimeUnit.SECONDS.sleep(5);
         System.out.println("Hello World!");
-        System.out.println("sayHello finished");
+        log.info("sayHello finished.");
     }
 }
