@@ -22,6 +22,8 @@
 		<module>mio68-lab-spring-rest-secure</module>
 		<module>mio68-lab-spring-rest-errorhandling</module>
 		<module>mio68-lab-spring-test-component</module>
+		<module>mio68-lab-spring-taskexecutor</module>
+		<module>mio68-lab-spring-async</module>
 	</modules>
 
 	<properties>
