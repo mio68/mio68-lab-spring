@@ -82,3 +82,35 @@ Hello World!
 Press [ENTER] to quit:
 2022-10-23 17:54:10.893  INFO 17644 --- [         task-2] m.l.s.async.service.RateServiceImpl      : Rate [31] successfully obtained!
 ```
+
+5. @Async and exceptions
+
+If asynchronous method throws application exception or runtime exception then 
+client gets CompletableFuture completed exceptionally.
+
+Asynchronous method can return CompletableFuture completed exceptionally and client
+gets CompletableFuture completed exceptionally of course.
+
+Learn example:
+
+```
+    @Async
+    public CompletableFuture<Integer> getRateFuture(Mode mode)
+            throws ApplicationExceptionForThrow {
+
+        log.info("getRateFuture with mode [{}]", mode);
+        CompletableFuture<Integer> completableFuture = new CompletableFuture<>();
+        int rate = 31;
+        switch (mode) {
+            // @Async method can throw checked Exception.
+            case THROW_APPLICATION_EXCEPTION -> throw new ApplicationExceptionForThrow("not handled by get rate");
+            // @Async method can throw unchecked RuntimeException.
+            case THROW_RUNTIME_EXCEPTION -> throw new RuntimeException("get rate got something unexpected");
+            // @Async method can complete exceptionally.
+            case EXCEPTIONALLY_COMPLETE -> completableFuture.completeExceptionally(new ApplicationExceptionForCatch("competed with exception"));
+            // @Async method can complete normally of course.
+            case NORMAL_COMPLETE -> completableFuture.complete(rate);
+        }
+        return completableFuture;
+    }
+```

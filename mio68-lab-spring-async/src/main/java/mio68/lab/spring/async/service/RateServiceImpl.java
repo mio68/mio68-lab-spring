@@ -1,6 +1,8 @@
 package mio68.lab.spring.async.service;
 
 import lombok.extern.slf4j.Slf4j;
+import mio68.lab.spring.async.exception.ApplicationExceptionForCatch;
+import mio68.lab.spring.async.exception.ApplicationExceptionForThrow;
 import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Service;
 
@@ -12,6 +14,28 @@ import java.util.concurrent.TimeUnit;
 public class RateServiceImpl implements RateService {
 
     // Got it! This is right way to return value from @Async annotated method.
+    // Pay attention at exception handling.
+    @Override
+    @Async
+    public CompletableFuture<Integer> getRateFuture(Mode mode)
+            throws ApplicationExceptionForThrow {
+
+        log.info("getRateFuture with mode [{}]", mode);
+        CompletableFuture<Integer> completableFuture = new CompletableFuture<>();
+        int rate = 31;
+        switch (mode) {
+            // @Async method can throw checked Exception.
+            case THROW_APPLICATION_EXCEPTION -> throw new ApplicationExceptionForThrow("not handled by get rate");
+            // @Async method can throw unchecked RuntimeException.
+            case THROW_RUNTIME_EXCEPTION -> throw new RuntimeException("get rate got something unexpected");
+            // @Async method can complete exceptionally.
+            case EXCEPTIONALLY_COMPLETE -> completableFuture.completeExceptionally(new ApplicationExceptionForCatch("competed with exception"));
+            // @Async method can complete normally of course.
+            case NORMAL_COMPLETE -> completableFuture.complete(rate);
+        }
+        return completableFuture;
+    }
+
     @Override
     @Async
     public CompletableFuture<Integer> getRateFuture() throws InterruptedException {

@@ -2,6 +2,7 @@ package mio68.lab.spring.async;
 
 import lombok.extern.slf4j.Slf4j;
 import mio68.lab.spring.async.service.HelloService;
+import mio68.lab.spring.async.service.Mode;
 import mio68.lab.spring.async.service.RateService;
 import org.springframework.boot.ApplicationRunner;
 import org.springframework.boot.SpringApplication;
@@ -60,5 +61,38 @@ public class AsyncApplication {
             log.info("Got rate future: [{}]", rate);
             log.info("Current rate(from future) is: [{}]", rate.get(10, TimeUnit.SECONDS));};
     }
+
+    @Bean
+    @Order(5)
+    public ApplicationRunner startupRunner5(RateService rateService) {
+        return (args) -> {
+            CompletableFuture<Integer> rate = rateService.getRateFuture(Mode.NORMAL_COMPLETE);
+            log.info("normal complete got rate [{}]", rate.get());
+
+            try {
+                rate = rateService.getRateFuture(Mode.EXCEPTIONALLY_COMPLETE);
+                int r = rate.get();
+            } catch (Exception ex) {
+                log.info("exceptionally complete", ex);
+            }
+
+            try {
+                rate = rateService.getRateFuture(Mode.THROW_APPLICATION_EXCEPTION);
+                int r = rate.get();
+            } catch (Exception ex) {
+                log.info("async method throws exception", ex);
+            }
+
+            try {
+                rate = rateService.getRateFuture(Mode.THROW_RUNTIME_EXCEPTION);
+                int r = rate.get();
+            } catch (Exception ex) {
+                log.info("async method throws runtime", ex);
+            }
+
+        };
+    }
+
+
 
 }
