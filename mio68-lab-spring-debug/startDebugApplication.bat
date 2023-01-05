@@ -1,0 +1,1 @@
+java -agentlib:jdwp=transport=dt_socket,server=y,suspend=n,address=*:5005 -jar target/mio68-lab-spring-debug-0.0.1-SNAPSHOT.jar
