@@ -15,6 +15,7 @@ public class DebugApplication implements ApplicationRunner {
     public void run(ApplicationArguments args) throws Exception {
         System.out.println("Press <Enter> to shutdown...");
         int c = System.in.read();
+        String s = "Hello world!";
         int k = c + 10; // just for breakpoint
     }
 }
