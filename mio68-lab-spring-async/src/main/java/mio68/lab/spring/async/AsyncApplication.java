@@ -73,6 +73,19 @@ public class AsyncApplication {
                 rate = rateService.getRateFuture(Mode.EXCEPTIONALLY_COMPLETE);
                 int r = rate.get();
             } catch (Exception ex) {
+/* Log example:
+java.util.concurrent.ExecutionException: mio68.lab.spring.async.exception.ApplicationExceptionForCatch: competed with exception
+	at java.base/java.util.concurrent.CompletableFuture.reportGet(CompletableFuture.java:396) ~[na:na]
+	at java.base/java.util.concurrent.CompletableFuture.get(CompletableFuture.java:2073) ~[na:na]
+	at mio68.lab.spring.async.AsyncApplication.lambda$startupRunner5$3(AsyncApplication.java:74) ~[classes/:na]
+...
+Caused by: mio68.lab.spring.async.exception.ApplicationExceptionForCatch: competed with exception
+	at mio68.lab.spring.async.service.RateServiceImpl.getRateFuture(RateServiceImpl.java:32) ~[classes/:na]
+	at java.base/jdk.internal.reflect.NativeMethodAccessorImpl.invoke0(Native Method) ~[na:na]
+	at java.base/jdk.internal.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:77) ~[na:na]
+	at java.base/jdk.internal.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43) ~[na:na]
+	at java.base/java.lang.reflect.Method.invoke(Method.java:568) ~[na:na]
+*/
                 log.info("exceptionally complete", ex);
             }
 
@@ -80,6 +93,20 @@ public class AsyncApplication {
                 rate = rateService.getRateFuture(Mode.THROW_APPLICATION_EXCEPTION);
                 int r = rate.get();
             } catch (Exception ex) {
+/*
+ Log example:
+ java.util.concurrent.ExecutionException: mio68.lab.spring.async.exception.ApplicationExceptionForThrow: not handled by get rate
+	at java.base/java.util.concurrent.CompletableFuture.reportGet(CompletableFuture.java:396) ~[na:na]
+	at java.base/java.util.concurrent.CompletableFuture.get(CompletableFuture.java:2073) ~[na:na]
+	at mio68.lab.spring.async.AsyncApplication.lambda$startupRunner5$3(AsyncApplication.java:81) ~[classes/:na]
+ ...
+Caused by: mio68.lab.spring.async.exception.ApplicationExceptionForThrow: not handled by get rate
+	at mio68.lab.spring.async.service.RateServiceImpl.getRateFuture(RateServiceImpl.java:28) ~[classes/:na]
+	at java.base/jdk.internal.reflect.NativeMethodAccessorImpl.invoke0(Native Method) ~[na:na]
+	at java.base/jdk.internal.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:77) ~[na:na]
+	at java.base/jdk.internal.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43) ~[na:na]
+	at java.base/java.lang.reflect.Method.invoke(Method.java:568) ~[na:na]
+*/
                 log.info("async method throws exception", ex);
             }
 
@@ -87,6 +114,16 @@ public class AsyncApplication {
                 rate = rateService.getRateFuture(Mode.THROW_RUNTIME_EXCEPTION);
                 int r = rate.get();
             } catch (Exception ex) {
+/* Log example:
+ java.util.concurrent.ExecutionException: java.lang.RuntimeException: get rate got something unexpected
+...
+Caused by: java.lang.RuntimeException: get rate got something unexpected
+	at mio68.lab.spring.async.service.RateServiceImpl.getRateFuture(RateServiceImpl.java:30) ~[classes/:na]
+	at java.base/jdk.internal.reflect.NativeMethodAccessorImpl.invoke0(Native Method) ~[na:na]
+	at java.base/jdk.internal.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:77) ~[na:na]
+	at java.base/jdk.internal.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43) ~[na:na]
+	at java.base/java.lang.reflect.Method.invoke(Method.java:568) ~[na:na]
+*/
                 log.info("async method throws runtime", ex);
             }
 
