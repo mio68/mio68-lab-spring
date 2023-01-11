@@ -27,6 +27,7 @@
         <module>mio68-lab-spring-cache</module>
 		<module>mio68-lab-spring-debug</module>
         <module>mio68-lab-spring-jmx</module>
+        <module>mio68-lab-spring-test-properties</module>
     </modules>
 
 	<properties>
