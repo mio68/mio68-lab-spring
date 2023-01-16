@@ -29,6 +29,7 @@
         <module>mio68-lab-spring-jmx</module>
         <module>mio68-lab-spring-test-properties</module>
         <module>mio68-lab-spring-minwebapp</module>
+        <module>mio68-lab-spring-webasync</module>
     </modules>
 
 	<properties>
