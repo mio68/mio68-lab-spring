@@ -13,6 +13,7 @@ import java.io.IOException;
 import java.util.concurrent.Callable;
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.ThreadLocalRandom;
+import java.util.concurrent.TimeUnit;
 
 @RestController
 @RequestMapping("/api/v1")
@@ -87,7 +88,7 @@ public class HelloController {
 
     private void randomDelay() {
         try {
-            Thread.sleep(ThreadLocalRandom.current().nextInt(2000));
+            TimeUnit.MILLISECONDS.sleep(ThreadLocalRandom.current().nextInt(2000));
         } catch (InterruptedException e) {
             Thread.currentThread().interrupt();
         }
