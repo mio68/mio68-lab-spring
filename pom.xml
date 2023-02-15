@@ -31,7 +31,8 @@
         <module>mio68-lab-spring-minwebapp</module>
         <module>mio68-lab-spring-webasync</module>
 		<module>mio68-lab-spring-webflux</module>
-	</modules>
+        <module>mio68-lab-spring-jpa-basics</module>
+    </modules>
 
 	<properties>
 		<java.version>17</java.version>
