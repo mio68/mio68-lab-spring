@@ -32,6 +32,14 @@ spring.jpa.properties.hibernate.format_sql=true
 
 # Enable Spring's transaction logs
 logging.level.org.springframework.transaction.interceptor = TRACE
+
+# Enable logging for JPA
+logging.level.org.springframework.orm.jpa=DEBUG
+  
+# Enable logging for transactions   
+logging.level.org.springframework.transaction=DEBUG 
+logging.level.org.hibernate.transaction=DEBUG
+logging.level.org.hibernate.engine.transaction.internal=DEBUG
 ```
 
 4. Когда EntityManager::contains возвращает true для данного entity?
