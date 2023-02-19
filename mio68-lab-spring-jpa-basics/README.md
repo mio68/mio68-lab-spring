@@ -115,11 +115,14 @@ Flush для PersistenceContext будет вызван или перед вып
 
 
 7. Вопросы
-Обновление Entity. Достаточно ли просто установить сеттерами свойства и ожидать 
-что при завершении транзакции будет flush? 
+Q.Обновление Entity. Достаточно ли просто установить сеттерами свойства и ожидать 
+что при завершении транзакции будет flush?
+A. Да. For managed entities, you don’t need any save method because Hibernate automatically synchronizes 
+the entity state with the underlying database record.
 
-Нужен ли @Transactional если вызываем только один метод EntityManager?
+Q. Нужен ли @Transactional если вызываем только один метод EntityManager?
 Если метод не @Transactional и вызван из транзакции?
 Как учитывает транзакции EntityManager?
+A. 
 
 8. 

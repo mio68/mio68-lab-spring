@@ -21,11 +21,13 @@ public class CustomCustomerRepositoryImpl implements CustomCustomerRepository {
 
     @Override
     public boolean contextContains(Customer customer) {
+        log.info("entityManager.isJoinedToTransaction(): " + entityManager.isJoinedToTransaction());
         return entityManager.contains(customer);
     }
 
     @Override
     public Customer find(long id) {
+        log.info("entityManager.isJoinedToTransaction(): " + entityManager.isJoinedToTransaction());
         return entityManager.find(Customer.class, id);
     }
 
