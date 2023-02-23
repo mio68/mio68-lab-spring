@@ -23,50 +23,50 @@ public class JpaBasicsDemoApplication {
         SpringApplication.run(JpaBasicsDemoApplication.class, args);
     }
 
-    @Component
-    public static class DemoApplicationRunner implements ApplicationRunner {
-
-        @Autowired
-        CustomerRepository customerRepository;
-
-        @Autowired
-        DemoCustomerRepo demoCustomerRepo;
-
-        @Autowired
-        DemoService demoService;
-
-        @Override
-        public void run(ApplicationArguments args) {
-
-            if (customerRepository.findById(1L).isEmpty()) {
-                Customer customer = new Customer();
-                customer.setId(1L);
-                customer.setName("John Doe");
-                customer.setEmail("john_doe@mycompany.com");
-                customerRepository.save(customer);
-            }
-
-            // @Transactional annotation won't take effect on this call,
-            // because it's a direct call of a method within same class
-            testContextContainsEntityWithId1(); //contains returns false
-
-            customerRepository.testContextContainsEntity(); //contains returns true
-
-            demoCustomerRepo.transactionalTestContextContainsJustFoundEntity(); //contains returns true
-            demoCustomerRepo.nonTransactionalTestContextContainsJustFoundEntity(); //contains returns false
-            demoCustomerRepo.transactionalTestContextContainsEntityWithExistingDbRow(); //contains returns false
-
-            demoService.updateEntityWithId1();
-            demoService.testContextContainsEntityWithId1(); //contains returns true
-
-        }
-
-        @Transactional
-        public void testContextContainsEntityWithId1() {
-            Customer firstCustomerFound = customerRepository.find(1L);
-            log.info("customer: " + firstCustomerFound);
-            boolean contextContainsFirstCustomer = customerRepository.contextContains(firstCustomerFound);
-            log.info("customerRepository.contextContains(firstCustomerFound): " + contextContainsFirstCustomer);
-        }
-    }
+//    @Component
+//    public static class DemoApplicationRunner implements ApplicationRunner {
+//
+//        @Autowired
+//        CustomerRepository customerRepository;
+//
+//        @Autowired
+//        DemoCustomerRepo demoCustomerRepo;
+//
+//        @Autowired
+//        DemoService demoService;
+//
+//        @Override
+//        public void run(ApplicationArguments args) {
+//
+//            if (customerRepository.findById(1L).isEmpty()) {
+//                Customer customer = new Customer();
+//                customer.setId(1L);
+//                customer.setName("John Doe");
+//                customer.setEmail("john_doe@mycompany.com");
+//                customerRepository.save(customer);
+//            }
+//
+//            // @Transactional annotation won't take effect on this call,
+//            // because it's a direct call of a method within same class
+//            testContextContainsEntityWithId1(); //contains returns false
+//
+//            customerRepository.testContextContainsEntity(); //contains returns true
+//
+//            demoCustomerRepo.transactionalTestContextContainsJustFoundEntity(); //contains returns true
+//            demoCustomerRepo.nonTransactionalTestContextContainsJustFoundEntity(); //contains returns false
+//            demoCustomerRepo.transactionalTestContextContainsEntityWithExistingDbRow(); //contains returns false
+//
+//            demoService.updateEntityWithId1();
+//            demoService.testContextContainsEntityWithId1(); //contains returns true
+//
+//        }
+//
+//        @Transactional
+//        public void testContextContainsEntityWithId1() {
+//            Customer firstCustomerFound = customerRepository.find(1L);
+//            log.info("customer: " + firstCustomerFound);
+//            boolean contextContainsFirstCustomer = customerRepository.contextContains(firstCustomerFound);
+//            log.info("customerRepository.contextContains(firstCustomerFound): " + contextContainsFirstCustomer);
+//        }
+//    }
 }
