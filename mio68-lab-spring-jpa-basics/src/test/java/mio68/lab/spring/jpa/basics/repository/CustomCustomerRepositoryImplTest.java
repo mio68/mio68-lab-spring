@@ -18,12 +18,21 @@ class CustomCustomerRepositoryImplTest {
     public void foundAndSelectedByQueryCustomersAreIdentical() {
         Customer[] customers = customerRepository.getByFindAndGetByQuery();
         Customer customerFound = customers[0];
-        System.out.println(customerFound);
+        System.out.println("found by id: " + customerFound);
         Customer customerSelectedByQuery = customers[1];
+        System.out.println("selected by query: " + customerSelectedByQuery);
+        Customer updatedByOtherThread = customers[2];
+        System.out.println("updated by other thread: " + updatedByOtherThread);
         assertTrue(customerFound == customerSelectedByQuery,
                 "entities are not identical");
         assertTrue(customerFound.equals(customerSelectedByQuery),
                 "entities are not equal");
+
+        assertTrue(customerFound != updatedByOtherThread,
+                "entities are identical");
+        assertTrue(!customerFound.equals(updatedByOtherThread),
+                "entities are equal");
+
     }
 
 }

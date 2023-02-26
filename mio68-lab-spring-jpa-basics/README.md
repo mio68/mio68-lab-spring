@@ -121,8 +121,40 @@ A. Да. For managed entities, you don’t need any save method because Hibernat
 the entity state with the underlying database record.
 
 Q. Нужен ли @Transactional если вызываем только один метод EntityManager?
+A. Если выполняем query то будет создан shared EntityManager. Транзакции JPA не будет. 
+Creating new EntityManager for shared EntityManager invocation
+
+
 Если метод не @Transactional и вызван из транзакции?
 Как учитывает транзакции EntityManager?
 A. 
 
-8. 
+8. Тестовая БД
+
+```
+INSERT INTO post (title, id)
+VALUES ('High-Performance Java Persistence - Part 1', 1);
+  
+INSERT INTO post (title, id)
+VALUES ('High-Performance Java Persistence - Part 2', 2);
+  
+INSERT INTO post (title, id)
+VALUES ('High-Performance Java Persistence - Part 3', 3);
+  
+INSERT INTO post (title, id)
+VALUES ('High-Performance Java Persistence - Part 4', 4);
+	
+INSERT INTO post_comment (post_id, review, id)
+VALUES (1, 'Excellent book to understand Java Persistence', 1);
+  
+INSERT INTO post_comment (post_id, review, id)
+VALUES (2, 'Must-read for Java developers', 2);
+  
+INSERT INTO post_comment (post_id, review, id)
+VALUES (3, 'Five Stars', 3);
+  
+INSERT INTO post_comment (post_id, review, id)
+VALUES (4, 'A great reference book', 4);
+```
+
+9. 

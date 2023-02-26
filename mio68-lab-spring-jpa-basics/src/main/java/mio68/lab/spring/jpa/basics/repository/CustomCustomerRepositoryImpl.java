@@ -56,10 +56,11 @@ public class CustomCustomerRepositoryImpl implements CustomCustomerRepository {
         Customer customerFound = entityManager.find(Customer.class, 1L);
 
         // Imitate update customer by another transaction
-        updateCustomerWithId1Async();
+        Customer updatedByOtherThread = updateCustomerWithId1Async();
 
         Customer customerSelectedByQuery = entityManager.createQuery("""
-                                SELECT c FROM Customer c
+                                SELECT c 
+                                FROM Customer c
                                 WHERE c.id = 1 
                                 """,
                         Customer.class)
@@ -67,17 +68,17 @@ public class CustomCustomerRepositoryImpl implements CustomCustomerRepository {
 
 //        entityManager.refresh(customerSelectedByQuery);
 
-        return new Customer[]{customerFound, customerSelectedByQuery};
+        return new Customer[]{customerFound, customerSelectedByQuery, updatedByOtherThread};
     }
 
-    private void updateCustomerWithId1Async() {
-        CompletableFuture.runAsync(() -> {
+    private Customer updateCustomerWithId1Async() {
+        return CompletableFuture.supplyAsync(() -> {
             TransactionTemplate transactionTemplate =
                     new TransactionTemplate(platformTransactionManager);
-            transactionTemplate.executeWithoutResult((status) -> {
+            return transactionTemplate.execute((status) -> {
                 Customer customer = entityManager.find(Customer.class, 1L);
                 customer.setName("Updated at:" + LocalDateTime.now());
-                System.out.println(customer);
+                return customer;
             });
         }).join();
     }
