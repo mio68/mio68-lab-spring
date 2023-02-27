@@ -12,11 +12,13 @@ public class PostComment {
     @Id
     private Long id;
 
-//    FetchType.LAZY can be used to prevent N+1 problem
+//    FetchType.LAZY combined with JOIN FETCH can be used to prevent N+1 problem
 //    WARNING! It's impossible to get associated entity lazily without transaction
 //    when Entity manager is closed.
-    @ManyToOne (fetch = FetchType.LAZY)
-//    @ManyToOne
+//    @ManyToOne (fetch = FetchType.LAZY)
+    @ManyToOne (fetch = FetchType.LAZY, optional = false)
+//    @ManyToOne  // Default fetching type is EAGER and post is fetched with additional request.
+//    @ManyToOne(optional = false) // makes PostComment must have Post (foreign key field is NOT NULL)
     private Post post;
 
     private String review;

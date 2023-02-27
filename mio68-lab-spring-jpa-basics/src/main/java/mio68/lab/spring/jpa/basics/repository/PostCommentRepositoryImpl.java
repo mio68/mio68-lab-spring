@@ -5,7 +5,6 @@ import org.springframework.stereotype.Repository;
 
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
-import javax.transaction.Transactional;
 import java.util.List;
 
 @Repository
@@ -19,21 +18,16 @@ public class PostCommentRepositoryImpl implements PostCommentRepository {
     }
 
 
+    // This method produces N sub-queries if fetch is eager.
+    // If fetch is lazy then it can produce N sub-queries at traversing if parent post property is accessed.
     @Override
-    @Transactional // Required to use lazy initialized post
     public List<PostComment> findAllNPlusOneDemo() {
-
-        List<PostComment> postCommentList = entityManager.createQuery("""
+        return entityManager.createQuery("""
                 SELECT pc
                 FROM PostComment pc
                 """,
                 PostComment.class)
                 .getResultList();
-
-        // This traversing produces N+1 problem even with Lazy fetching
-        postCommentList.forEach(postComment -> postComment.getPost().getTitle());
-
-        return postCommentList;
     }
 
     // Avoid N+1 problem with JOIN FETCH, and get post comments with their post
@@ -47,5 +41,28 @@ public class PostCommentRepositoryImpl implements PostCommentRepository {
                         PostComment.class)
                 .getResultList();
     }
+
+
+    // If FetchType.EAGER then find will use single select request with left outer join if @ManyToOne(optional = true)
+    // or with inner join if post @ManyToOne(optional = false)
+    public PostComment find(Long id) {
+        return entityManager.find(PostComment.class, id);
+    }
+
+    // JOIN FETCH causes single select request and this doesn't depend on FetchType (LAZY or EAGER)
+    // post is joined with inner join
+    public PostComment findPostCommentWithPost(Long id) {
+        return entityManager.createQuery("""
+                                SELECT pc
+                                FROM PostComment pc
+                                JOIN FETCH pc.post p
+                                WHERE pc.id=:id
+                                """,
+                        PostComment.class)
+                .setParameter("id", id)
+                .getSingleResult();
+    }
+
+
 
 }
