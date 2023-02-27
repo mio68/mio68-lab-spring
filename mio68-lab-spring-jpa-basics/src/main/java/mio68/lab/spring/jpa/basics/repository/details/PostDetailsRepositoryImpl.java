@@ -1,6 +1,7 @@
 package mio68.lab.spring.jpa.basics.repository.details;
 
 
+import mio68.lab.spring.jpa.basics.entity.Post;
 import mio68.lab.spring.jpa.basics.entity.PostDetails;
 import org.springframework.stereotype.Repository;
 
@@ -30,5 +31,12 @@ public class PostDetailsRepositoryImpl implements PostDetailsRepository {
     @Override
     public PostDetails find(Long id) {
         return entityManager.find(PostDetails.class, id);
+    }
+
+    @Override
+    public void attachDetails(Long postId, PostDetails postDetails) {
+        Post post = entityManager.getReference(Post.class, postId);
+        postDetails.setPost(post);
+        entityManager.persist(postDetails);
     }
 }

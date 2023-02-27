@@ -8,4 +8,6 @@ public interface PostDetailsRepository {
     void remove(PostDetails postDetails);
 
     PostDetails find(Long id);
+
+    void attachDetails(Long postId, PostDetails postDetails);
 }

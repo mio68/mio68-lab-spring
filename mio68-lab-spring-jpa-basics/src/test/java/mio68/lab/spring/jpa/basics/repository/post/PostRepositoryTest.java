@@ -30,18 +30,10 @@ class PostRepositoryTest {
 
     TransactionTemplate transactionTemplate;
 
-    Post existingPost;
 
     @BeforeEach
     public void setUp() {
         transactionTemplate = new TransactionTemplate(platformTransactionManager);
-
-        Post post = new Post();
-        post.setTitle("new post");
-
-        existingPost = transactionTemplate.execute(
-                status -> postRepository.persist(post));
-
     }
 
     @AfterEach
@@ -73,9 +65,11 @@ class PostRepositoryTest {
     }
 
     @Test
-    public void whenSaveDetails_thenFound() {
+    public void saveNewPostWithDetails() {
+        Post post = new Post();
+        post.setTitle("new post");
         PostDetails postDetails = new PostDetails("Bob");
-        postDetails.setPost(existingPost);
+        postDetails.setPost(post);
 
         transactionTemplate.executeWithoutResult(
                 status -> postDetailsRepository.persist(postDetails));
@@ -84,22 +78,41 @@ class PostRepositoryTest {
                 status -> postDetailsRepository.find(postDetails.getId())
         );
 
-        assertTrue(postDetails.equals(foundDetails));
+        assertEquals(postDetails, foundDetails);
+    }
+
+    @Test
+    public void attachDetails() {
+        Post post = new Post();
+        post.setTitle("new post");
+
+        transactionTemplate.executeWithoutResult(
+                status -> postRepository.persist(post));
+
+        // post is detached now
+        PostDetails postDetails = new PostDetails("Bob");
+        transactionTemplate.executeWithoutResult(
+                status -> postDetailsRepository.attachDetails(post.getId(), postDetails));
+
     }
 
     @Test
     public void tryToSaveTwoDetailsForOnePost() {
+        Post post = new Post();
+        post.setTitle("new post");
+
+        transactionTemplate.executeWithoutResult(
+                status -> postRepository.persist(post));
+
         PostDetails postDetails = new PostDetails("Bob");
-        postDetails.setPost(existingPost);
 
         PostDetails anotherPostDetails = new PostDetails("Alice");
-        anotherPostDetails.setPost(existingPost);
 
         transactionTemplate.executeWithoutResult(
-                status -> postDetailsRepository.persist(postDetails));
+                status -> postDetailsRepository.attachDetails(post.getId(), postDetails));
 
         transactionTemplate.executeWithoutResult(
-                status -> postDetailsRepository.persist(anotherPostDetails));
+                status -> postDetailsRepository.attachDetails(post.getId(), anotherPostDetails));
 
     }
 

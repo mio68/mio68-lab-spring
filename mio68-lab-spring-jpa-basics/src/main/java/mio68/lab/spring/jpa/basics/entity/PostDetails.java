@@ -10,8 +10,9 @@ import java.util.Date;
 @Data
 public class PostDetails {
 
+    // Share id with it's post
+    // So post id can be used to find post details.
     @Id
-    @GeneratedValue
     private Long id;
 
     @Column(name = "created_on")
@@ -22,7 +23,8 @@ public class PostDetails {
 
     @OneToOne
 //    @OneToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "post_id")
+    @JoinColumn(name = "id")  // it's desired to have id column name for primary key + foreign key column, instead of post_id
+    @MapsId
     private Post post;
 
     public PostDetails() {}
