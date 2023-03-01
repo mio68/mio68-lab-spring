@@ -15,18 +15,19 @@ public class Post {
 
     private String title;
 
-//    @OneToOne(mappedBy = "post", cascade = CascadeType.ALL)
-//    private PostDetails details;
-//
-//    public void setDetails(PostDetails details) {
-//        if (details == null) {
-//            if (this.details != null) {
-//                this.details.setPost(null);
-//            }
-//        }
-//        else {
-//            details.setPost(this);
-//        }
-//        this.details = details;
-//    }
+    @OneToOne(
+            mappedBy = "post",
+            cascade = CascadeType.ALL,
+            orphanRemoval = true,
+            fetch = FetchType.LAZY
+    )
+    private PostDetails details;
+
+    public void setDetails(PostDetails details) {
+        if (details != null) {
+            details.setPost(this);
+        }
+        this.details = details;
+    }
+
 }

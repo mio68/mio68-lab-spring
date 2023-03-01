@@ -1,6 +1,7 @@
 package mio68.lab.spring.jpa.basics.entity;
 
 import lombok.Data;
+import lombok.ToString;
 
 import javax.persistence.*;
 import java.util.Date;
@@ -23,8 +24,9 @@ public class PostDetails {
 
     @OneToOne
 //    @OneToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "id")  // it's desired to have id column name for primary key + foreign key column, instead of post_id
+    @JoinColumn(name = "id")  // it's desired to have 'id' column name for primary key + foreign key column, instead of 'post_id'
     @MapsId
+    @ToString.Exclude
     private Post post;
 
     public PostDetails() {}

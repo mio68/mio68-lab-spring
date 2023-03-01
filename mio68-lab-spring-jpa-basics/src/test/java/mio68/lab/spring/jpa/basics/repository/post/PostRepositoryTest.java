@@ -65,7 +65,58 @@ class PostRepositoryTest {
     }
 
     @Test
-    public void saveNewPostWithDetails() {
+    public void savePostWithDetails() {
+        Post post = new Post();
+        post.setTitle("post");
+        post.setDetails(new PostDetails("Bob"));
+
+        Post postSaved = transactionTemplate.execute(
+                status -> postRepository.persist(post));
+
+        System.out.println(postSaved);
+    }
+
+    // Two requests are used to get post, and it's post details
+    @Test
+    public void findPost1() {
+        Post post = transactionTemplate.execute(
+                status -> postRepository.findById(1L)).orElseThrow();
+        System.out.println(post);
+    }
+
+
+    // Two requests are used to get post, and it's post details
+    @Test
+    public void findPost25() {
+        Post post = transactionTemplate.execute(
+                status -> postRepository.findById(25L)).orElseThrow();
+        System.out.println(post);
+    }
+
+    @Test
+    public void findPostWithDetails1() {
+        Post post = transactionTemplate.execute(
+                status -> postRepository.findPostWithDetails(1L)).orElseThrow();
+        System.out.println(post);
+    }
+
+    // it uses only one select query with inner join
+    @Test
+    public void findPostWithDetails25() {
+        Post post = transactionTemplate.execute(
+                status -> postRepository.findPostWithDetails(25L)).orElseThrow();
+        System.out.println(post);
+    }
+
+    @Test
+    public void emptyOptionalIfNotFound() {
+        Optional<Post> optionalPost = transactionTemplate.execute(
+                status -> postRepository.findPostWithDetails(0L));
+        assertTrue(optionalPost.isEmpty());
+    }
+
+    @Test
+    public void saveNewPostWithDetailsBySavingPostDetails() {
         Post post = new Post();
         post.setTitle("new post");
         PostDetails postDetails = new PostDetails("Bob");
@@ -95,6 +146,7 @@ class PostRepositoryTest {
                 status -> postDetailsRepository.attachDetails(post.getId(), postDetails));
 
     }
+
 
     @Test
     public void tryToSaveTwoDetailsForOnePost() {

@@ -4,6 +4,7 @@ import mio68.lab.spring.jpa.basics.entity.Post;
 
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
+import java.util.Optional;
 
 public class PostCustomRepositoryImpl implements PostCustomRepository {
 
@@ -24,4 +25,21 @@ public class PostCustomRepositoryImpl implements PostCustomRepository {
     public Post merge(Post post) {
         return entityManager.merge(post);
     }
+
+    // Details are optional, so LEFT JOIN FETCH is used
+    @Override
+    public Optional<Post> findPostWithDetails(Long id) {
+        return entityManager.createQuery("""
+                                SELECT p
+                                FROM Post p
+                                LEFT JOIN FETCH p.details d
+                                WHERE p.id=:id
+                                """,
+                        Post.class)
+                .setParameter("id", id)
+                .getResultList()
+                .stream()
+                .findAny();
+    }
+
 }
