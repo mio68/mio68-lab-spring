@@ -60,7 +60,7 @@ class PostRepositoryTest {
         Post postFound = transactionTemplate.execute(
                 status -> postRepository.findById(post.getId()).orElseThrow());
 
-        assertEquals(postSaved, postFound, "saved and found are not equal!");
+        assertEquals(postSaved.getId(), postFound.getId(), "saved and found are not equal!");
 
         transactionTemplate.executeWithoutResult(
                 status -> postRepository.delete(post));

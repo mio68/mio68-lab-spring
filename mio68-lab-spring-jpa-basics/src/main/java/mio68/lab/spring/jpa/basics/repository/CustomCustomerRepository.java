@@ -14,4 +14,6 @@ public interface CustomCustomerRepository {
 
     @Transactional
     Customer[] getByFindAndGetByQuery();
+
+    void persist(Customer customer);
 }

@@ -18,7 +18,7 @@ spring.jpa.generate-ddl=true
 3. Logging SQL and it's parameters, and logging transactions boundaries
 
 ```
-# Send SQL to standard out
+# Send SQL to standard out - DONT USE THIS!
 #spring.jpa.show-sql=true
 
 # Log SQL with logger

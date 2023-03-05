@@ -5,14 +5,19 @@ import mio68.lab.spring.jpa.basics.entity.Customer;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.transaction.PlatformTransactionManager;
+import org.springframework.transaction.support.TransactionTemplate;
 
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
-@SpringBootTest(classes = {JpaBasicsDemoApplication.class})
+@SpringBootTest
 class CustomCustomerRepositoryImplTest {
 
     @Autowired
     CustomCustomerRepositoryImpl customerRepository;
+
+    @Autowired
+    PlatformTransactionManager platformTransactionManager;
 
     @Test
     public void foundAndSelectedByQueryCustomersAreIdentical() {
@@ -34,5 +39,24 @@ class CustomCustomerRepositoryImplTest {
                 "entities are equal");
 
     }
+
+    @Test
+    public void whenSaved_thenFound() {
+        Customer customer = new Customer();
+        customer.setName("customer A");
+
+        TransactionTemplate transactionTemplate = new TransactionTemplate(platformTransactionManager);
+
+        transactionTemplate.executeWithoutResult(
+                status -> customerRepository.persist(customer)
+        );
+
+        System.out.println(customer);
+
+        Customer customer1 = customerRepository.find(customer.getId());
+
+        System.out.println(customer1);
+    }
+
 
 }

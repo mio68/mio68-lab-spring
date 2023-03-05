@@ -59,7 +59,7 @@ public class CustomCustomerRepositoryImpl implements CustomCustomerRepository {
         Customer updatedByOtherThread = updateCustomerWithId1Async();
 
         Customer customerSelectedByQuery = entityManager.createQuery("""
-                                SELECT c 
+                                SELECT c
                                 FROM Customer c
                                 WHERE c.id = 1 
                                 """,
@@ -69,6 +69,11 @@ public class CustomCustomerRepositoryImpl implements CustomCustomerRepository {
 //        entityManager.refresh(customerSelectedByQuery);
 
         return new Customer[]{customerFound, customerSelectedByQuery, updatedByOtherThread};
+    }
+
+    @Override
+    public void persist(Customer customer) {
+        entityManager.persist(customer);
     }
 
     private Customer updateCustomerWithId1Async() {
