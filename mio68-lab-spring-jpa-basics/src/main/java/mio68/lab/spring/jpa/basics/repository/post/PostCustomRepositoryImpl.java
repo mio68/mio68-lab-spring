@@ -42,4 +42,20 @@ public class PostCustomRepositoryImpl implements PostCustomRepository {
                 .findAny();
     }
 
+    @Override
+    public Optional<Post> findPostWithDetailsAndComments(Long id) {
+        return entityManager.createQuery("""
+                                SELECT p
+                                FROM Post p
+                                LEFT JOIN FETCH p.details pd
+                                LEFT JOIN FETCH p.comments pc
+                                WHERE p.id=:id
+                                """,
+                        Post.class)
+                .setParameter("id", id)
+                .getResultList()
+                .stream()
+                .findAny();
+    }
+
 }

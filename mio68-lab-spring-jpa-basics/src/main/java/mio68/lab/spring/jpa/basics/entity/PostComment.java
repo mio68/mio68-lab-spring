@@ -1,6 +1,7 @@
 package mio68.lab.spring.jpa.basics.entity;
 
 import lombok.Data;
+import lombok.ToString;
 
 import javax.persistence.*;
 
@@ -10,6 +11,7 @@ import javax.persistence.*;
 public class PostComment {
 
     @Id
+    @GeneratedValue
     private Long id;
 
 //    FetchType.LAZY combined with JOIN FETCH can be used to prevent N+1 problem
@@ -19,6 +21,7 @@ public class PostComment {
     @ManyToOne (fetch = FetchType.LAZY, optional = false)
 //    @ManyToOne  // Default fetching type is EAGER and post is fetched with additional request.
 //    @ManyToOne(optional = false) // makes PostComment must have Post (foreign key field is NOT NULL)
+    @ToString.Exclude
     private Post post;
 
     private String review;

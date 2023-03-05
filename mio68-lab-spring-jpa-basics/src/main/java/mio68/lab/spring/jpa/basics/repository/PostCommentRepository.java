@@ -6,4 +6,8 @@ import java.util.List;
 
 public interface PostCommentRepository {
     List<PostComment> findAllNPlusOneDemo();
+
+    void persist(PostComment postComment);
+
+    void removeCommentsByPostId(Long postId);
 }

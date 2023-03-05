@@ -9,4 +9,6 @@ public interface PostCustomRepository {
      Post merge(Post post);
 
     Optional<Post> findPostWithDetails(Long id);
+
+    Optional<Post> findPostWithDetailsAndComments(Long id);
 }

@@ -1,7 +1,9 @@
 package mio68.lab.spring.jpa.basics.repository.post;
 
 import mio68.lab.spring.jpa.basics.entity.Post;
+import mio68.lab.spring.jpa.basics.entity.PostComment;
 import mio68.lab.spring.jpa.basics.entity.PostDetails;
+import mio68.lab.spring.jpa.basics.repository.PostCommentRepository;
 import mio68.lab.spring.jpa.basics.repository.details.PostDetailsRepository;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
@@ -16,6 +18,8 @@ import java.util.Optional;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
+//@DataJpaTest
+//@AutoConfigureTestDatabase(replace = AutoConfigureTestDatabase.Replace.NONE)
 @SpringBootTest
 class PostRepositoryTest {
 
@@ -24,6 +28,9 @@ class PostRepositoryTest {
 
     @Autowired
     PostDetailsRepository postDetailsRepository;
+
+    @Autowired
+    PostCommentRepository postCommentRepository;
 
     @Autowired
     PlatformTransactionManager platformTransactionManager;
@@ -165,6 +172,77 @@ class PostRepositoryTest {
 
         transactionTemplate.executeWithoutResult(
                 status -> postDetailsRepository.attachDetails(post.getId(), anotherPostDetails));
+
+    }
+
+    @Test
+    public void createPostWith2Comments() {
+        Post post = new Post();
+        post.setTitle("post with details and a comment");
+
+        PostComment postComment = new PostComment();
+        postComment.setPost(post);
+        postComment.setReview("will JPA remove post comment if post is removed?");
+        post.getComments().add(postComment);
+
+        postComment = new PostComment();
+        postComment.setPost(post);
+        postComment.setReview("post with two comments)");
+        post.getComments().add(postComment);
+
+        transactionTemplate.executeWithoutResult(
+                status -> postRepository.persist(post));
+
+        transactionTemplate.executeWithoutResult(
+                status -> {
+                    // findById will use 2 select queries, and lazy get for comments will use
+                    // one more select
+//                    Post postFound = postRepository.findById(post.getId()).orElseThrow();
+
+                    Post postFound = postRepository.findPostWithDetailsAndComments(post.getId()).orElseThrow();
+                    System.out.println(postFound);
+                });
+
+    }
+
+    @Test
+    public void createPostWithDetailsAndAComment_andWhenDeleteIt() {
+        Post post = new Post();
+        post.setTitle("post with details and a comment");
+
+        PostDetails postDetails = new PostDetails("Bob");
+        post.setDetails(postDetails);
+
+        PostComment postComment = new PostComment();
+        postComment.setPost(post);
+        postComment.setReview("will JPA remove post comment if post is removed?");
+        post.getComments().add(postComment);
+
+        postComment = new PostComment();
+        postComment.setPost(post);
+        postComment.setReview("another comment2");
+        post.getComments().add(postComment);
+
+        transactionTemplate.executeWithoutResult(
+                status -> postRepository.persist(post));
+
+        System.out.println(post);
+
+        transactionTemplate.executeWithoutResult(
+                status -> {
+
+                    // remove comments, then remove post
+                    postCommentRepository.removeCommentsByPostId(post.getId());
+                    postRepository.deleteById(post.getId());
+
+                    // Select everything with one select
+//                    Post postFound = postRepository.findPostWithDetailsAndComments(post.getId()).orElseThrow();
+                    // deleteById() will select post, post_details, post_comment by
+                    // separate select query (3 in total)
+                    // Delete with many delete queries
+                    // Each comment will be deleted by separate query
+//                    postRepository.deleteById(post.getId());
+                });
 
     }
 

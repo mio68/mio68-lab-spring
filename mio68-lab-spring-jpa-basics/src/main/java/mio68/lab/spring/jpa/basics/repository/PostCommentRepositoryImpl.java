@@ -63,6 +63,17 @@ public class PostCommentRepositoryImpl implements PostCommentRepository {
                 .getSingleResult();
     }
 
+    @Override
+    public void persist(PostComment postComment) {
+        entityManager.persist(postComment);
+    }
 
-
+    @Override
+    public void removeCommentsByPostId(Long postId) {
+        entityManager.createQuery("""
+                DELETE PostComment pc WHERE pc.post.id=:postId
+                """)
+                .setParameter("postId", postId)
+                .executeUpdate();
+    }
 }
