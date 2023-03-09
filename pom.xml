@@ -33,7 +33,8 @@
 		<module>mio68-lab-spring-webflux</module>
         <module>mio68-lab-spring-jpa-basics</module>
 		<module>mio68-lab-spring-conf-prop-validation</module>
-	</modules>
+        <module>mio68-lab-spring-jdbc-basics</module>
+    </modules>
 
 	<properties>
 		<java.version>17</java.version>
