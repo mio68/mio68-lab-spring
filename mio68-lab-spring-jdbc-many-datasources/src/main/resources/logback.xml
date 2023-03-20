@@ -1,0 +1,18 @@
+<configuration>
+    <appender name="STDOUT" class="ch.qos.logback.core.ConsoleAppender">
+        <encoder>
+            <pattern>%d{HH:mm:ss.SSS} [%thread] %-5level %logger{36} - %msg%n</pattern>
+        </encoder>
+    </appender>
+
+<!--    <logger name="org.springframework" level="DEBUG"/>-->
+<!--    <logger name="org.springframework.beans" level="DEBUG"/>-->
+    <logger name="org.springframework.transaction" level="TRACE"/>
+    <logger name="org.springframework.transaction.support.TransactionTemplate" level="TRACE"/>
+    <logger name="org.springframework.jdbc.core" level="TRACE"/>
+<!--    <logger name="org.springframework.transaction.interceptor" level="TRACE"/>-->
+
+    <root level="INFO">
+        <appender-ref ref="STDOUT" />
+    </root>
+</configuration>

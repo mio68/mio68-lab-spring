@@ -1,0 +1,16 @@
+spring:
+  datasource:
+    main:
+      url: jdbc:postgresql://localhost:5432/postgres
+      username: postgres
+      password: 1234
+      type: com.zaxxer.hikari.HikariDataSource
+      hikari:
+        maximum-pool-size: 20
+    standin:
+      url: jdbc:postgresql://localhost:5433/postgres
+      username: postgres
+      password: 1234
+      type: org.springframework.jdbc.datasource.SimpleDriverDataSource
+#      hikari:
+#        maximum-pool-size: 20
