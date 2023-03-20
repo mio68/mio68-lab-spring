@@ -34,6 +34,8 @@
         <module>mio68-lab-spring-jpa-basics</module>
 		<module>mio68-lab-spring-conf-prop-validation</module>
         <module>mio68-lab-spring-jdbc-basics</module>
+        <module>mio68-lab-spring-embedded-postgresql</module>
+        <module>mio68-lab-spring-jdbc-many-datasources</module>
     </modules>
 
 	<properties>
