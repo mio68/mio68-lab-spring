@@ -36,6 +36,7 @@
         <module>mio68-lab-spring-jdbc-basics</module>
         <module>mio68-lab-spring-embedded-postgresql</module>
         <module>mio68-lab-spring-jdbc-many-datasources</module>
+        <module>mio68-lab-spring-async-cancel</module>
     </modules>
 
 	<properties>
