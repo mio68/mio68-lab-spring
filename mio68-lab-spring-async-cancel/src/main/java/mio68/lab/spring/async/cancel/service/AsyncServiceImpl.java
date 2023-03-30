@@ -33,7 +33,7 @@ public class AsyncServiceImpl implements AsyncService {
             // test interruption
             if (Thread.currentThread().isInterrupted()) {
                 log.debug("iteration interrupted");
-                break;
+                completableFuture.completeExceptionally(new InterruptedException("iteration interrupted"));
             }
 
             // delay if required
@@ -83,8 +83,9 @@ public class AsyncServiceImpl implements AsyncService {
                 // test interruption
                 if (Thread.currentThread().isInterrupted()) {
                     log.debug("iteration interrupted");
-                    break;
+                    throw new InterruptedException("iteration interrupted");
                 }
+                // delay
                 if (delaySec > 0) {
                     TimeUnit.SECONDS.sleep(delaySec);
                 }

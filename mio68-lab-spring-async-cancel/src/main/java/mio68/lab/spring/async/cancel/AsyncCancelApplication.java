@@ -9,6 +9,7 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.scheduling.annotation.EnableAsync;
 import org.springframework.stereotype.Component;
 
+import java.io.IOException;
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.Future;
 import java.util.concurrent.TimeUnit;
@@ -18,8 +19,12 @@ import java.util.concurrent.TimeUnit;
 @Slf4j
 public class AsyncCancelApplication {
 
-    public static void main(String[] args) {
+    public static void main(String[] args) throws IOException {
         SpringApplication.run(AsyncCancelApplication.class, args);
+
+        System.out.println("Press [ENTER] to quit:");
+        System.in.read();
+
     }
 
     @Component
@@ -34,9 +39,9 @@ public class AsyncCancelApplication {
 
         @Override
         public void run(ApplicationArguments args) throws Exception {
-            submitWithCompletableFuture();
+//            submitWithCompletableFuture();
 //            submitWithFuture();
-//            submitWithTaskExecutor();
+            submitWithTaskExecutor();
         }
 
         private void submitWithCompletableFuture() throws InterruptedException {
