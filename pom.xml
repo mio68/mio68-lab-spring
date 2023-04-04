@@ -37,7 +37,8 @@
         <module>mio68-lab-spring-embedded-postgresql</module>
         <module>mio68-lab-spring-jdbc-many-datasources</module>
         <module>mio68-lab-spring-async-cancel</module>
-    </modules>
+		<module>mio68-lab-spring-web-security-customfilter</module>
+	</modules>
 
 	<properties>
 		<java.version>17</java.version>
