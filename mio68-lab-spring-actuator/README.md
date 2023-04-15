@@ -38,6 +38,7 @@ management.endpoints.web.exposure.include=*
 ```
 
 Чтобы была инфа про коммита git понадобится еще один плагин
+https://github.com/git-commit-id/git-commit-id-maven-plugin/blob/master/docs/using-the-plugin.md
 ```xml
             <plugin>
                 <groupId>io.github.git-commit-id</groupId>
