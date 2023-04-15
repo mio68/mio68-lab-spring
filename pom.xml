@@ -39,7 +39,8 @@
         <module>mio68-lab-spring-async-cancel</module>
 		<module>mio68-lab-spring-web-security-customfilter</module>
         <module>mio68-lab-spring-jpa-timefield</module>
-    </modules>
+		<module>mio68-lab-spring-data-jdbc</module>
+	</modules>
 
 	<properties>
 		<java.version>17</java.version>
