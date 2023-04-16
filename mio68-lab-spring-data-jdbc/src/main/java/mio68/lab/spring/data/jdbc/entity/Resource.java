@@ -9,11 +9,11 @@ import org.springframework.data.relational.core.mapping.Embedded;
 public class Resource {
 
     @Id
-    private final Long id;
+    Long id;
 
     @Embedded(onEmpty = Embedded.OnEmpty.USE_NULL)
-    private final CommonInfo commonInfo;
+    CommonInfo commonInfo;
 
-    private final String type;
+    String type;
 
 }

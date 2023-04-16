@@ -45,12 +45,11 @@ public class SpringDataJdbcApplication {
 
         @Override
         public void run(ApplicationArguments args) throws Exception {
-//            resourceDemo();
+            resourceDemo();
 //            timestampMomentDemo();
 //            instantMomentDemo();
-
-            tryToSaveNanos();
-            printInstantMoments();
+//            tryToSaveNanos();
+//            printInstantMoments();
         }
 
         private void printInstantMoments() {
@@ -107,6 +106,27 @@ public class SpringDataJdbcApplication {
             } else {
                 System.out.println("not found by id!");
             }
+
+            resource = Resource.builder()
+                    .id(7L)
+                    .type("updated type")
+                    .build();
+
+            resourceRepository.save(resource);
+            Resource resourceById7 = resourceRepository.findById(7L).get();
+            System.out.println(resourceById7);
+
+
+
+            // Can't insert new entity with non-null id.
+//            resource = Resource.builder()
+//                    .id(100L)
+//                    .type("inserted with id 100L")
+//                    .build();
+//            resourceRepository.save(resource);
+//            Resource resourceById100 = resourceRepository.findById(100L).get();
+//            System.out.println(resourceById100);
+
         }
 
         private void tryToSaveNanos() {
