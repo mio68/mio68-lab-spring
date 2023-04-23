@@ -4,9 +4,7 @@ import mio68.lab.spring.data.jdbc.entity.CommonInfo;
 import mio68.lab.spring.data.jdbc.entity.InstantMoment;
 import mio68.lab.spring.data.jdbc.entity.Resource;
 import mio68.lab.spring.data.jdbc.entity.TimestampMoment;
-import mio68.lab.spring.data.jdbc.repository.InstantMomentRepository;
-import mio68.lab.spring.data.jdbc.repository.ResourceRepository;
-import mio68.lab.spring.data.jdbc.repository.TimestampMomentRepository;
+import mio68.lab.spring.data.jdbc.repository.*;
 import org.springframework.boot.ApplicationArguments;
 import org.springframework.boot.ApplicationRunner;
 import org.springframework.boot.SpringApplication;
@@ -32,20 +30,34 @@ public class SpringDataJdbcApplication {
         private final ResourceRepository resourceRepository;
         private final TimestampMomentRepository timestampMomentRepository;
         private final InstantMomentRepository instantMomentRepository;
+        private final MyRepository myRepository;
+        private final MyRepository2 myRepository2;
+
 
         SpringDataJdbcApplicationDemo(
                 ResourceRepository resourceRepository,
                 TimestampMomentRepository timestampMomentRepository,
-                InstantMomentRepository instantMomentRepository) {
+                InstantMomentRepository instantMomentRepository,
+                MyRepository myRepository,
+                MyRepository2 myRepository2) {
 
             this.resourceRepository = resourceRepository;
             this.timestampMomentRepository = timestampMomentRepository;
             this.instantMomentRepository = instantMomentRepository;
+            this.myRepository = myRepository;
+            this.myRepository2 = myRepository2;
         }
 
         @Override
         public void run(ApplicationArguments args) throws Exception {
-            resourceDemo();
+
+            Resource resource = myRepository.findById(1L).get();
+            System.out.println(resource);
+
+            resource = myRepository2.findById(2L).get();
+            System.out.println(resource);
+
+//            resourceDemo();
 //            timestampMomentDemo();
 //            instantMomentDemo();
 //            tryToSaveNanos();
