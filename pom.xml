@@ -40,6 +40,7 @@
         <module>mio68-lab-spring-web-security-customfilter</module>
         <module>mio68-lab-spring-jpa-timefield</module>
         <module>mio68-lab-spring-data-jdbc</module>
+        <module>mio68-lab-spring-etcd</module>
     </modules>
 
     <properties>
