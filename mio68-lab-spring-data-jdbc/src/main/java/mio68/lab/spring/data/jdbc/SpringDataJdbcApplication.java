@@ -1,9 +1,7 @@
 package mio68.lab.spring.data.jdbc;
 
-import mio68.lab.spring.data.jdbc.entity.CommonInfo;
-import mio68.lab.spring.data.jdbc.entity.InstantMoment;
-import mio68.lab.spring.data.jdbc.entity.Resource;
-import mio68.lab.spring.data.jdbc.entity.TimestampMoment;
+import lombok.extern.slf4j.Slf4j;
+import mio68.lab.spring.data.jdbc.entity.*;
 import mio68.lab.spring.data.jdbc.repository.*;
 import org.springframework.boot.ApplicationArguments;
 import org.springframework.boot.ApplicationRunner;
@@ -17,8 +15,10 @@ import java.time.LocalDateTime;
 import java.time.Month;
 import java.time.ZoneOffset;
 import java.util.Optional;
+import java.util.Set;
 
 @SpringBootApplication
+@Slf4j
 public class SpringDataJdbcApplication {
     public static void main(String[] args) {
         SpringApplication.run(SpringDataJdbcApplication.class, args);
@@ -32,36 +32,128 @@ public class SpringDataJdbcApplication {
         private final InstantMomentRepository instantMomentRepository;
         private final MyRepository myRepository;
         private final MyRepository2 myRepository2;
-
+        private final OrderRepository orderRepository;
 
         SpringDataJdbcApplicationDemo(
                 ResourceRepository resourceRepository,
                 TimestampMomentRepository timestampMomentRepository,
                 InstantMomentRepository instantMomentRepository,
                 MyRepository myRepository,
-                MyRepository2 myRepository2) {
+                MyRepository2 myRepository2,
+                OrderRepository orderRepository) {
 
             this.resourceRepository = resourceRepository;
             this.timestampMomentRepository = timestampMomentRepository;
             this.instantMomentRepository = instantMomentRepository;
             this.myRepository = myRepository;
             this.myRepository2 = myRepository2;
+            this.orderRepository = orderRepository;
         }
 
         @Override
         public void run(ApplicationArguments args) throws Exception {
-
-            Resource resource = myRepository.findById(1L).get();
-            System.out.println(resource);
-
-            resource = myRepository2.findById(2L).get();
-            System.out.println(resource);
-
+            orderRepoDemo();
+//            customRepoDemo();
 //            resourceDemo();
 //            timestampMomentDemo();
 //            instantMomentDemo();
 //            tryToSaveNanos();
 //            printInstantMoments();
+        }
+
+        private void orderRepoDemo() {
+            Order order = Order.builder()
+                    .title("order A")
+                    .orderItem(
+                            OrderItem.builder()
+                                    .name("item 10-1")
+                                    .build())
+                    .orderItem(
+                            OrderItem.builder()
+                                    .name("item 10-2")
+                                    .build())
+                    .orderItem(
+                            OrderItem.builder()
+                                    .name("item 10-3")
+                                    .build())
+                    .build();
+
+            log.info("order to save: {}", order);
+            Order savedOrder = orderRepository.save(order);
+            log.info("saved order: {}", savedOrder);
+
+            Order orderFound = orderRepository.findById(savedOrder.getId()).get();
+            log.info("order found by id {}: {}", savedOrder.getId(), orderFound);
+
+
+            Order orderWithNoItems = Order.builder()
+                    .title("without items")
+                    .build();
+            log.info("order with no items: {}", orderWithNoItems);
+            Order orderWithNoItemsSaved = orderRepository.save(orderWithNoItems);
+            log.info("order with no items saved: {}", orderWithNoItemsSaved);
+            Order orderWithNoItemsFound = orderRepository.findById(orderWithNoItemsSaved.getId()).get();
+            log.info("order with no items found: {}", orderWithNoItemsFound);
+
+            // build order items set first
+            Set<OrderItem> orderItems = Set.of(
+                    OrderItem.builder().name("item1").build(),
+                    OrderItem.builder().name("item2").build()
+            );
+            Order orderWithItems = Order.builder()
+                    .title("order with items")
+                    .orderItems(orderItems)
+                    .build();
+            log.info("order with items: {}", orderWithItems);
+            Order orderWithItemsSaved = orderRepository.save(orderWithItems);
+            log.info("order with items saved: {}", orderWithItemsSaved);
+
+            Order orderWithItemsFound = orderRepository.findById(orderWithItemsSaved.getId()).get();
+            log.info("order with items found: {}", orderWithItemsFound);
+
+            Order orderForDeletion = orderFound;
+            orderRepository.delete(orderForDeletion);
+            log.info("deleted order exists: {}", orderRepository.findById(orderForDeletion.getId()).isPresent());
+
+            // How to update an order?
+            orderWithItemsFound.getOrderItems().removeIf(orderItem -> orderItem.getName().contains("1"));
+            orderWithItemsFound.getOrderItems().add(OrderItem.builder().name("item added").build());
+            Order orderWithItemsForUpdate = orderWithItemsFound.toBuilder()
+                    .title("order with items updated")
+                    .build();
+            log.info("items are updated {}", orderWithItemsForUpdate);
+            Order updated = orderRepository.save(orderWithItemsForUpdate);
+            log.info("updated  {}", updated);
+            Order updatedFound = orderRepository.findById(updated.getId()).get();
+            log.info("updated found {}", updatedFound);
+
+//            // update order found
+//            Set<OrderItem> updatedItemSet = orderFound.getOrderItems()
+//                    .stream()
+//                    .limit(2)
+//                    .map(orderItem -> orderItem.toBuilder().name("new item name").build())
+//                    .collect(Collectors.toSet());
+//
+//            Order orderForUpdate = orderFound.toBuilder()
+//                    .title("updated order")
+//                    .orderItems(Collections.emptySet())
+//                    .build();
+
+//            log.info("order for updated: {}", orderForUpdate);
+//            Order updatedOrder = orderRepository.save(orderForUpdate);
+//            log.info("updated order: {}", updatedOrder);
+//            log.info("updated order found: {}", orderRepository.findById(updatedOrder.getId()).get());
+
+
+        }
+
+
+        private void customRepoDemo() {
+            Resource resource = myRepository.findById(1L).get();
+            System.out.println(resource);
+
+            resource = myRepository2.findById(2L).get();
+            System.out.println(resource);
         }
 
         private void printInstantMoments() {
@@ -127,7 +219,6 @@ public class SpringDataJdbcApplication {
             resourceRepository.save(resource);
             Resource resourceById7 = resourceRepository.findById(7L).get();
             System.out.println(resourceById7);
-
 
 
             // Can't insert new entity with non-null id.
