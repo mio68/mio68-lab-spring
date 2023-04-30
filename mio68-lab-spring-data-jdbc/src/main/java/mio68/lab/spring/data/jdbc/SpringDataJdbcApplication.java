@@ -16,6 +16,7 @@ import java.time.Month;
 import java.time.ZoneOffset;
 import java.util.Optional;
 import java.util.Set;
+import java.util.stream.Collectors;
 
 @SpringBootApplication
 @Slf4j
@@ -52,7 +53,8 @@ public class SpringDataJdbcApplication {
 
         @Override
         public void run(ApplicationArguments args) throws Exception {
-            orderRepoDemo();
+            updateOrder51();
+//            orderRepoDemo();
 //            customRepoDemo();
 //            resourceDemo();
 //            timestampMomentDemo();
@@ -85,7 +87,6 @@ public class SpringDataJdbcApplication {
             Order orderFound = orderRepository.findById(savedOrder.getId()).get();
             log.info("order found by id {}: {}", savedOrder.getId(), orderFound);
 
-
             Order orderWithNoItems = Order.builder()
                     .title("without items")
                     .build();
@@ -115,38 +116,33 @@ public class SpringDataJdbcApplication {
             orderRepository.delete(orderForDeletion);
             log.info("deleted order exists: {}", orderRepository.findById(orderForDeletion.getId()).isPresent());
 
+            updateOrder51();
+
+        }
+
+        private void updateOrder51() {
             // How to update an order?
-            orderWithItemsFound.getOrderItems().removeIf(orderItem -> orderItem.getName().contains("1"));
-            orderWithItemsFound.getOrderItems().add(OrderItem.builder().name("item added").build());
-            Order orderWithItemsForUpdate = orderWithItemsFound.toBuilder()
+            Order updateIt = orderRepository.findById(51L).get();
+            Order orderWithItemsForUpdate = updateIt.toBuilder()
                     .title("order with items updated")
+                    .clearOrderItems()
+                    .orderItems(
+                            updateIt.getOrderItems()
+                                    .stream()
+                                    .limit(1)
+                                    .collect(Collectors.toSet()))
+                    .orderItem(
+                            OrderItem.builder()
+                                    .name("item added")
+                                    .build())
                     .build();
-            log.info("items are updated {}", orderWithItemsForUpdate);
+
+            log.info("order with items updated {}", orderWithItemsForUpdate);
             Order updated = orderRepository.save(orderWithItemsForUpdate);
             log.info("updated  {}", updated);
             Order updatedFound = orderRepository.findById(updated.getId()).get();
             log.info("updated found {}", updatedFound);
-
-//            // update order found
-//            Set<OrderItem> updatedItemSet = orderFound.getOrderItems()
-//                    .stream()
-//                    .limit(2)
-//                    .map(orderItem -> orderItem.toBuilder().name("new item name").build())
-//                    .collect(Collectors.toSet());
-//
-//            Order orderForUpdate = orderFound.toBuilder()
-//                    .title("updated order")
-//                    .orderItems(Collections.emptySet())
-//                    .build();
-
-//            log.info("order for updated: {}", orderForUpdate);
-//            Order updatedOrder = orderRepository.save(orderForUpdate);
-//            log.info("updated order: {}", updatedOrder);
-//            log.info("updated order found: {}", orderRepository.findById(updatedOrder.getId()).get());
-
-
         }
-
 
         private void customRepoDemo() {
             Resource resource = myRepository.findById(1L).get();
@@ -162,7 +158,6 @@ public class SpringDataJdbcApplication {
             System.out.println(instantMomentRepository.findById(3L).get());
             System.out.println(instantMomentRepository.findById(4L).get());
         }
-
 
         private void instantMomentDemo() {
             InstantMoment instantMoment = InstantMoment.builder()
