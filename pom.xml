@@ -41,6 +41,7 @@
         <module>mio68-lab-spring-jpa-timefield</module>
         <module>mio68-lab-spring-data-jdbc</module>
         <module>mio68-lab-spring-etcd</module>
+        <module>mio68-lab-spring-kafka</module>
     </modules>
 
     <properties>
