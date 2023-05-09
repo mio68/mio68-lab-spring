@@ -162,3 +162,13 @@ The exceptions that are considered fatal, by default, are:
 
 You can add more exception types to the not-retryable category.
 
+#### Ошибки недоступности брокера
+
+По умолчанию логирует слишком часто! Примерно раз в секунду
+```
+2023-05-09 11:10:18.404  INFO 19640 --- [Container-0-C-1] org.apache.kafka.clients.NetworkClient   : [Consumer clientId=consumer-test-group-1, groupId=test-group] Node 1 disconnected.
+2023-05-09 11:10:18.404  WARN 19640 --- [Container-0-C-1] org.apache.kafka.clients.NetworkClient   : [Consumer clientId=consumer-test-group-1, groupId=test-group] Connection to node 1 (localhost/127.0.0.1:29092) could not be established. Broker may not be available.
+2023-05-09 11:10:19.258  INFO 19640 --- [Container-0-C-1] org.apache.kafka.clients.NetworkClient   : [Consumer clientId=consumer-test-group-1, groupId=test-group] Node 1 disconnected.
+2023-05-09 11:10:19.258  WARN 19640 --- [Container-0-C-1] org.apache.kafka.clients.NetworkClient   : [Consumer clientId=consumer-test-group-1, groupId=test-group] Connection to node 1 (localhost/127.0.0.1:29092) could not be established. Broker may not be available.
+```
+Думаю надо установить уровень ```org.apache.kafka.clients.NetworkClient: ERROR```
