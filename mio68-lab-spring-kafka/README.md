@@ -123,7 +123,7 @@ For long consuming messages ```NonResponsiveConsumerEvent``` is produced.
 ```
 
 #### Обработка ошибок
-По умолчанию повторяет 9 раз, на 10 коммит без обработки
+По умолчанию повторяет 9 раз, на 10-й делает коммит пропуская необработанное сообщение
 ```
 2023-05-01 14:34:21.482 DEBUG 19700 --- [Container-0-C-1] o.s.k.l.KafkaMessageListenerContainer    : Received: 1 records
 2023-05-01 14:34:21.482  INFO 19700 --- [Container-0-C-1] m.l.s.k.consumer.SimpleMessageListener   : onMessage key: [k1] value: [sleep:150w]
@@ -134,3 +134,31 @@ For long consuming messages ```NonResponsiveConsumerEvent``` is produced.
 2023-05-01 14:34:21.484 DEBUG 19700 --- [Container-0-C-1] o.s.k.l.KafkaMessageListenerContainer    : Committing: {test_topic-0=OffsetAndMetadata{offset=26, leaderEpoch=null, metadata=''}}
 ```
 Обработка продолжается далее.
+Генерируется исключение
+```org.springframework.kafka.listener.ListenerExecutionFailedException```.
+
+Наличие таких будет видно в актуаторе
+```
+http://localhost:8080/actuator/metrics/spring.kafka.listener?tag=exception:ListenerExecutionFailedException
+```
+
+KafkaListenerErrorHandler implementation handles exceptions for MessageListener.
+It's possible to setup it with @KafkaListener annotation (has a new attribute: errorHandler).
+
+CommonErrorHandler implementation handles exceptions for container.
+```
+org.springframework.kafka.listener.AbstractMessageListenerContainer.setCommonErrorHandler(@Nullable CommonErrorHandler commonErrorHandler)
+```
+
+
+The DefaultErrorHandler considers certain exceptions to be fatal, and retries are skipped for such exceptions; the recoverer is invoked on the first failure. 
+The exceptions that are considered fatal, by default, are:
+* DeserializationException
+* MessageConversionException
+* ConversionException
+* MethodArgumentResolutionException
+* NoSuchMethodException
+* ClassCastException
+
+You can add more exception types to the not-retryable category.
+
