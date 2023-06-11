@@ -17,6 +17,7 @@ import java.io.IOException;
 import java.security.KeyManagementException;
 import java.security.KeyStoreException;
 import java.security.NoSuchAlgorithmException;
+import java.security.UnrecoverableKeyException;
 import java.security.cert.CertificateException;
 
 public class Client {
@@ -26,7 +27,8 @@ public class Client {
             CertificateException,
             NoSuchAlgorithmException,
             KeyStoreException,
-            KeyManagementException {
+            KeyManagementException,
+            UnrecoverableKeyException {
 
         RestTemplate restTemplate = createRestTemplate();
         String result = restTemplate.getForObject(
@@ -40,11 +42,16 @@ public class Client {
             KeyManagementException,
             KeyStoreException,
             CertificateException,
-            IOException {
+            IOException,
+            UnrecoverableKeyException {
 
         SSLContext sslContext = new SSLContextBuilder()
                 .loadTrustMaterial(
                         new File("certs/client/truststore.jks"),
+                        "changeit".toCharArray())
+                .loadKeyMaterial(
+                        new File("certs/client/client.jks"),
+                        "changeit".toCharArray(),
                         "changeit".toCharArray())
                 .build();
 
