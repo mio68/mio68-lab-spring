@@ -32,12 +32,30 @@ keytool -storepass changeit -keystore certs/server/server.jks -certreq -alias se
 # Create certificate chain for Server 
 copy /b certs\ca\root.pem+certs\ca\ca.pem+certs\server\server.pem certs\server\serverchain.pem
 
-* Import Server chain to Server key store
+# Import Server chain to Server key store
 keytool -keystore certs/server/server.jks -importcert -alias server -file certs/server/serverchain.pem
 ```
 
-### Create trust store for clint
+### Create trust store for clint and server
+Add only Test CA certificate to trust store.
 
 ```
 keytool -storepass changeit -keystore certs/client/truststore.jks -alias "test ca" -importcert  -file certs/ca/ca.pem
+copy /b certs\client\truststore.jks certs\server\truststore.jks
+```
+
+### Create client certificate for mTLS
+
+```
+# Create client certificate with name Test Client
+keytool -genkeypair -keyalg RSA -keysize 2048 -storepass changeit -keystore certs/client/client.jks -alias client
+
+# Generate certificate request for Client, and then generate certificate for Client signed by CA 
+keytool -storepass changeit -keystore certs/client/client.jks -certreq -alias client | keytool -storepass changeit -keystore certs/ca/ca.jks -gencert -alias ca -ext "ku:c=dig,keyEncipherment" -rfc > certs/client/client.pem
+
+# Create certificate chain for Client 
+copy /b certs\ca\root.pem+certs\ca\ca.pem+certs\client\client.pem certs\client\clientchain.pem
+
+# Import Client chain to Client key store
+keytool -keystore certs/client/client.jks -importcert -alias client -file certs/client/clientchain.pem
 ```

@@ -6,12 +6,14 @@ import org.springframework.http.client.reactive.ReactorClientHttpConnector;
 import org.springframework.web.reactive.function.client.WebClient;
 import reactor.netty.http.client.HttpClient;
 
+import javax.net.ssl.KeyManagerFactory;
 import javax.net.ssl.TrustManagerFactory;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.security.KeyStore;
 import java.security.KeyStoreException;
 import java.security.NoSuchAlgorithmException;
+import java.security.UnrecoverableKeyException;
 import java.security.cert.CertificateException;
 
 public class ReactiveClient {
@@ -20,7 +22,17 @@ public class ReactiveClient {
             throws KeyStoreException,
             NoSuchAlgorithmException,
             IOException,
-            CertificateException {
+            CertificateException,
+            UnrecoverableKeyException {
+
+        KeyStore keyStore = KeyStore.getInstance("JKS");
+        keyStore.load(
+                new FileInputStream("certs/client/client.jks"),
+                "changeit".toCharArray());
+
+        KeyManagerFactory keyManagerFactory = KeyManagerFactory
+                .getInstance(KeyManagerFactory.getDefaultAlgorithm());
+        keyManagerFactory.init(keyStore, "changeit".toCharArray());
 
         KeyStore trustStore = KeyStore.getInstance("JKS");
         trustStore.load(
@@ -32,6 +44,7 @@ public class ReactiveClient {
         trustManagerFactory.init(trustStore);
 
         SslContext sslContext = SslContextBuilder.forClient()
+                .keyManager(keyManagerFactory)
                 .trustManager(trustManagerFactory)
                 .build();
 
