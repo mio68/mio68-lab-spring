@@ -59,3 +59,8 @@ copy /b certs\ca\root.pem+certs\ca\ca.pem+certs\client\client.pem certs\client\c
 # Import Client chain to Client key store
 keytool -keystore certs/client/client.jks -importcert -alias client -file certs/client/clientchain.pem
 ```
+
+### Debug 
+use JVM option -Djavax.net.debug=SSL,handshake
+
+see. https://habr.com/ru/articles/414909/
