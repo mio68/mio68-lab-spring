@@ -60,6 +60,10 @@ copy /b certs\ca\root.pem+certs\ca\ca.pem+certs\client\client.pem certs\client\c
 keytool -keystore certs/client/client.jks -importcert -alias client -file certs/client/clientchain.pem
 ```
 
+### List certs
+
+```keytool -keystore client.jks -list -v```
+
 ### Debug 
 use JVM option -Djavax.net.debug=SSL,handshake
 
