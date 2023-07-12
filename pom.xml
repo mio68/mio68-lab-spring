@@ -43,6 +43,7 @@
         <module>mio68-lab-spring-etcd</module>
         <module>mio68-lab-spring-kafka</module>
         <module>mio68-lab-spring-web-mtls</module>
+        <module>mio68-lab-spring-jdbc-timestamp</module>
     </modules>
 
     <properties>
