@@ -18,3 +18,5 @@ localDateTime = jdbcTemplate.queryForObject("select ts from tm", LocalDateTime.c
 ```
 
 Spring data JDBC supports java.util.Date, java.time.LocalDate, java.time.LocalDateTime, and java.time.LocalTime
+see also https://vladmihalcea.com/how-to-store-date-time-and-timestamps-in-utc-time-zone-with-jdbc-and-hibernate/
+As a rule of thumb, it’s much easier if all date/time values are stored in the UTC format, and, if necessary, dealing with time zone conversions in the UI only.
