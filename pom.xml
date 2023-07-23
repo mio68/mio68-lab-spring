@@ -44,6 +44,7 @@
         <module>mio68-lab-spring-kafka</module>
         <module>mio68-lab-spring-web-mtls</module>
         <module>mio68-lab-spring-jdbc-timestamp</module>
+        <module>mio68-lab-spring-conf-prop-yaml</module>
     </modules>
 
     <properties>

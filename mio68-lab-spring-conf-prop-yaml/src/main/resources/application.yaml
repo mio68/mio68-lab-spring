@@ -1,0 +1,11 @@
+service:
+  name: myService
+kafka:
+  consumer:
+    "[bootstrap.servers]": localhost:9092 # This puts "bootstrap.servers" key into the map
+    "[max.poll.records]": 10
+#    "bootstrap.servers": localhost:9092  # Puts key "bootstrap" and then key "servers".
+                                          # Doesn't suit for kafka properties settings.
+#    bootstrap.servers: localhost:9092     # Puts key "bootstrap" and then key "servers"
+
+#    {"[bootstrap.servers]": "localhost: 9092"} # Use JSON in the YAML. It works just well too.
