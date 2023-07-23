@@ -34,4 +34,15 @@ java -agentlib:jdwp=transport=dt_socket,server=y,suspend=n,address=8000 -jar tar
 
 Меню Run - Edit Configurations... - Add New Configuration - Remote JVM Debug
 
-5. 
+4. Отладочная информация по компонентам (@Component)
+
+```
+    <logger name="org.springframework.context.annotation" level="DEBUG"/>
+```
+
+Пример журнала
+```
+13:45:37.164 [main] DEBUG o.s.c.a.ClassPathBeanDefinitionScanner - Identified candidate component class: file [C:\Users\Igor\IdeaProjects\mio68-lab-spring\mio68-lab-spring-debug\target\classes\mio68\lab\spring\debug\DebugApplicationConfiguration.class]
+13:45:37.177 [main] DEBUG o.s.c.a.ClassPathBeanDefinitionScanner - Identified candidate component class: file [C:\Users\Igor\IdeaProjects\mio68-lab-spring\mio68-lab-spring-debug\target\classes\mio68\lab\spring\debug\component\TypeA.class]
+13:45:37.194 [main] DEBUG o.s.c.a.ClassPathBeanDefinitionScanner - Identified candidate component class: file [C:\Users\Igor\IdeaProjects\mio68-lab-spring\mio68-lab-spring-debug\target\classes\mio68\lab\spring\debug\component\TypeB.class]
+```
