@@ -1,5 +1,6 @@
 package mio68.lab.spring.confprop.yaml;
 
+import lombok.Data;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.boot.ApplicationArguments;
@@ -25,15 +26,20 @@ public class ConfPropYamlApplication {
     static class ConfPropYamlDemo implements ApplicationRunner {
 
         private final Map<String, Object> consumerProperties;
+        private final BeanA beanA;
 
-        ConfPropYamlDemo(@Qualifier("consumerProperties")Map<String, Object> consumerProperties) {
+        ConfPropYamlDemo(
+                @Qualifier("consumerProperties") Map<String, Object> consumerProperties,
+                BeanA beanA) {
             this.consumerProperties = consumerProperties;
+            this.beanA = beanA;
         }
 
 
         @Override
         public void run(ApplicationArguments args) {
             log.info("consumerProperties: {}", consumerProperties);
+            log.info("beanA: {}", beanA);
         }
     }
 
@@ -42,4 +48,17 @@ public class ConfPropYamlApplication {
     public Map<String, Object> consumerProperties() {
         return new HashMap<>();
     }
+
+    @Bean
+    @ConfigurationProperties("beans.bean-a")
+    public BeanA beanA() {
+        return new BeanA();
+    }
+
+    @Data
+    static class BeanA {
+        private int id;
+        private String name;
+    }
+
 }

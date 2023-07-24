@@ -1,5 +1,7 @@
-service:
-  name: myService
+beans:
+  beanA:
+    id: 123
+    name: "Bean A"
 kafka:
   consumer:
     "[bootstrap.servers]": localhost:9092 # This puts "bootstrap.servers" key into the map
