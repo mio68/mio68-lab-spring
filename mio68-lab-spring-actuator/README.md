@@ -13,6 +13,30 @@ What endpoints do we have with the application?
 http://localhost:8080/actuator/metrics/http.server.requests
 How to get statistics for particular endpoint?
 http://localhost:8080/actuator/metrics/http.server.requests?tag=uri:/api/v1/hello
+
+Посмотреть настройки application.properties (из разных мест),commandLineArgs,
+environment, system properties
+http://localhost:8080/actuator/env
+
+запланированные задачи
+http://localhost:8080/actuator/scheduledtasks
+{"cron":[],"fixedDelay":[],"fixedRate":[],"custom":[]}
+
+Очень полезный эндпоинт.
+посмотреть бины, от чего зависят ( в том числе будут показаны конфигурации которые их 
+создают, см. например myConfiguration)
+http://localhost:8080/actuator/beans 
+
+Логгеры
+http://localhost:8080/actuator/loggers
+
+Посмотреть executors (чтобы выбрать конкретный надо задать тег name)
+http://localhost:8080/actuator/metrics/executor.pool.size
+http://localhost:8080/actuator/metrics/executor.active
+Размер очереди задач
+http://localhost:8080/actuator/metrics/executor.queued
+http://localhost:8080/actuator/metrics/executor.queue.remaining
+
 ```
 
 #### Настройки 
