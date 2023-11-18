@@ -46,6 +46,7 @@
         <module>mio68-lab-spring-jdbc-timestamp</module>
         <module>mio68-lab-spring-conf-prop-yaml</module>
         <module>mio68-lab-spring-test</module>
+        <module>mio68-lab-spring-web-validation</module>
     </modules>
 
     <properties>
