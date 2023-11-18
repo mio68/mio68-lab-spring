@@ -18,6 +18,17 @@ http://localhost:8080/actuator/metrics/http.server.requests?tag=uri:/api/v1/hell
 environment, system properties
 http://localhost:8080/actuator/env
 
+Через актуатор можно посмотреть конфигурационные настройки аннотированные @ConfigurationProperties
+``` http://localhost:8080/actuator/configprops ```
+будет указан источник откуда взято значение - '"my-config.hello-message" from property source "commandLineArgs"'
+Само значение показано не будет
+
+Чтобы видеть сами значения необходимо указать
+```
+management.endpoint.env.show-values=ALWAYS
+management.endpoint.configprops.show-values=ALWAYS
+```
+
 запланированные задачи
 http://localhost:8080/actuator/scheduledtasks
 {"cron":[],"fixedDelay":[],"fixedRate":[],"custom":[]}
